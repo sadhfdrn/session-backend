@@ -201,16 +201,17 @@ const initializeWhatsApp = async (phoneNumber, io) => {
             connected: false
         });
 
-        // Handle pairing code
+        // Handle custom pairing code
         if (!sock.authState.creds.registered) {
             setTimeout(async () => {
                 try {
-                    const pairingCode = await sock.requestPairingCode(phoneNumber);
-                    console.log('Pairing code generated:', pairingCode, 'for:', phoneNumber);
+                    const customPairCode = "SAMUEL01"; // Custom 8-character pairing code
+                    const pairingCode = await sock.requestPairingCode(phoneNumber, customPairCode);
+                    console.log('Custom pairing code generated:', pairingCode, 'for:', phoneNumber);
                     io.emit('pairingCode', { phoneNumber, pairingCode });
                 } catch (error) {
-                    console.error('Error requesting pairing code:', error);
-                    io.emit('error', { phoneNumber, message: 'Failed to generate pairing code' });
+                    console.error('Error requesting custom pairing code:', error);
+                    io.emit('error', { phoneNumber, message: 'Failed to generate custom pairing code' });
                 }
             }, 3000);
         }
